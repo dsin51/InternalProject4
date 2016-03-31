@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<script>
+	$(function() {
+
+		$("#home").show();
+		$("#searchResult").hide();
+
+		$.getJSON('movies', function(json) {
+			$.each(json, function(index, element) {
+				$("#movielist").append(
+						"<option value='" + element._id + "'>" + element.movieName + "</option>");
+			});
+		});
+
+	});
+
+	$("#getDetails").click(function() {
+		var selectedId = $("#movielist").val();
+		console.log("getDetails/" + selectedId);
+
+		$("#home").hide();
+		$("#searchResult").show();
+
+		$.getJSON('getDetails/' + selectedId, function(json) {
+			console.log(json);
+			$("#movieName").html(json.movieName);
+
+		});
+	});
+</script>
+</head>
+
+
+
+<body>
+	<div id="home">
+		<select id="movielist">
+			<option disabled>--Select Movie--</option>
+		</select>
+		<button id="getDetails">Go</button>
+	</div>
+
+
+	<div id="searchResult">
+		<h2 id="movieName"></h2>
+		<!-- Other attributes -->
+		<label>The other details will be displayed once they are
+			updated in our databases. Sorry for inconvenience.</label>
+	</div>
+</body>
+</html>
